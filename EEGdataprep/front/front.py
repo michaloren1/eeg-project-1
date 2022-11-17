@@ -16,13 +16,19 @@ class MyWindow: # window of project Class
         self.lblSubtitle = Label(win, text='Choose your EEG data')
         self.lblBtnLeft = Label(win, font="Helvetica 14 bold", text='Create plots from file')
         self.lblBtnRight = Label(win, font="Helvetica 14 bold", text='Process Your File')
+        self.lblStep1 = Label(win, text='bandpass, re- referncing & channel inspection')
+        self.lblStep2 = Label(win, text='Removing bad channels, epoching, inspecting epochs,')
+        self.lblStep2a = Label(win, text='ICA & Save processed file')
         # Buttons- making new usable buttons
         self.btnOpenFile = Button(win, text='Load File', command=self.select_file)
         # name, use of button
         self.btnRawPlot = Button(win, text='Plot Raw', command=self.create_plot)
+        self.btnStep1 = Button(win, text='Step One', command=self.first_step)
+        self.btnStep2 = Button(win, text= 'Step Two', command=self.second_step)
         # EEG file loaded by user
         # ---------------------------
         self.selectedFile = "No file loaded"
+        self.midProcess = mne.create_info(4, sfreq=40) # holds the place until something is loaded
         # Placing the objects
         # ---------------------------
         # Labels
@@ -30,9 +36,14 @@ class MyWindow: # window of project Class
         self.lblSubtitle.place(x=20, y=90)
         self.lblBtnLeft.place(x=20, y=140)
         self.lblBtnRight.place(x=190, y=140)
+        self.lblStep1.place(x=250, y=180)
+        self.lblStep2.place(x=250, y=220)
+        self.lblStep2a.place(x=250, y=240)
         # Buttons
         self.btnOpenFile.place(x=170, y=90)
         self.btnRawPlot.place(x=20, y=180)
+        self.btnStep1.place(x=190, y=180)
+        self.btnStep2.place(x=190, y=220)
     # Triggered when Load File is pressed
 
     def select_file(self):
@@ -66,3 +77,10 @@ class MyWindow: # window of project Class
     # Triggered when Plot Raw is pressed
     def create_plot(self):
         plot_raw(self.selectedFile)
+
+    def first_step(self):
+        self.midProcess = step1(self.selectedFile)
+
+    def second_step(self):
+        print("second step will be here")
+
