@@ -25,6 +25,7 @@ class MyWindow: # window of project Class
         self.btnRawPlot = Button(win, text='Plot Raw', command=self.create_plot)
         self.btnStep1 = Button(win, text='Step One', command=self.first_step)
         self.btnStep2 = Button(win, text= 'Step Two', command=self.second_step)
+        self.btnSave = Button(win, test="Save", command=self.save_epoches)
         # EEG file loaded by user
         # ---------------------------
         self.selectedFile = "No file loaded"
@@ -44,6 +45,7 @@ class MyWindow: # window of project Class
         self.btnRawPlot.place(x=20, y=180)
         self.btnStep1.place(x=190, y=180)
         self.btnStep2.place(x=190, y=220)
+        self.btnSave.place(x=190, y=280)
     # Triggered when Load File is pressed
 
     def select_file(self):
@@ -82,5 +84,10 @@ class MyWindow: # window of project Class
         self.midProcess = step1(self.selectedFile)
 
     def second_step(self):
-        print("second step will be here")
+        self.midProcess = step2(self.midProcess, self.selectedFile)
+        # the open file after preprocessing will get more processed
 
+    def save_epoches(self, save_processed_epoches):
+        save_processed_epochs(self.midProcess, self.selectedFile)
+        print("---------------------------------")
+        print("Your preprocessed file is new in data/preprocessed folder.")
